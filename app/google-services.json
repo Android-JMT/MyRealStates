@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "407887443810",
+    "project_id": "myrealstates-a98bf",
+    "storage_bucket": "myrealstates-a98bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407887443810:android:7d1be849e7a3ef6ddcde3b",
+        "android_client_info": {
+          "package_name": "com.example.myrealstates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407887443810-8csrn2s2h77rebe0vmaa47o6lvvili8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArNbqm8hTY8ZlgoDF9YC2fBTQLFzUKJ-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "407887443810-8csrn2s2h77rebe0vmaa47o6lvvili8f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
