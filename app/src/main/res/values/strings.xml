@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyRealStates</string>
+    <string name="add_property">ADD PROPERTY</string>
+    <string name="imageTitle" />
 </resources>

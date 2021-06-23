@@ -1,24 +1,20 @@
-package com.example.myrealstates;
+package com.example.myrealstates.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myrealstates.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -48,13 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         Button signInButton = findViewById(R.id.signInButton);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: begin Google sign in");
-                Intent intent = googleSignInClient.getSignInIntent();
-                startActivityForResult(intent, RC_SIGN_IN);
-            }
+        signInButton.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: begin Google sign in");
+            Intent intent = googleSignInClient.getSignInIntent();
+            startActivityForResult(intent, RC_SIGN_IN);
         });
     }
 
@@ -67,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = accountTask.getResult((ApiException.class));
+                assert account != null;
                 firebaseAuthWithGoogleAccount(account);
             } catch (Exception e) {
                 Log.d(TAG, "onActivityResult: " + e.getMessage());
@@ -77,27 +71,22 @@ public class MainActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogleAccount(GoogleSignInAccount account) {
         Log.d(TAG, "firebaseAuthWithGoogleAccount: begin firebase auth");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                Log.d(TAG, "onSuccess: Logged in");
+        firebaseAuth.signInWithCredential(credential).addOnSuccessListener(authResult -> {
+            Log.d(TAG, "onSuccess: Logged in");
 
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                assert firebaseUser != null;
-                String uid = firebaseUser.getUid();
-                String mail = firebaseUser.getEmail();
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            assert firebaseUser != null;
+            String uid = firebaseUser.getUid();
+            String mail = firebaseUser.getEmail();
 
-                Log.d(TAG, "onSuccess: Email =>" + mail);
+            Log.d(TAG, "onSuccess: Email =>" + mail);
 
-                Intent intent = new Intent(getApplicationContext(), RealStates.class);
-                startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), PropertiesActivity.class);
+            startActivity(intent);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: Login failed"+e.getMessage());
-            }
-        });
+        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: Login failed"+e.getMessage()));
+
+
     }
+
 }
